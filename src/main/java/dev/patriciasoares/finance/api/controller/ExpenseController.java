@@ -1,6 +1,7 @@
 package dev.patriciasoares.finance.api.controller;
 
 import dev.patriciasoares.finance.api.dto.ExpenseDTO;
+import dev.patriciasoares.finance.api.dto.UpdatePayDateDTO;
 import dev.patriciasoares.finance.service.ExpenseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +50,12 @@ public class ExpenseController {
     public ResponseEntity<ExpenseDTO> getById(@PathVariable UUID id){
         var expense = service.getById(id);
         return ResponseEntity.ok(expense);
+    }
+    @PatchMapping("{id}")
+    public ResponseEntity<ExpenseDTO> updatePayDate (@PathVariable UUID id, @RequestBody UpdatePayDateDTO dto){
+        var expense = service.getById(id);
+        expense.setPayDate(dto.getPayDate());
+        var saved = service.save(expense);
+        return ResponseEntity.ok(saved);
     }
 }
